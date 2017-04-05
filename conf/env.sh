@@ -1,11 +1,11 @@
 # global settings
 
-master="pts00450-vm16"
+master=`cat /root/spark-ec2/masters`
 #A list of machines where the spark cluster is running
-MC_LIST="pts00450-vm22 pts00450-vm23"
+MC_LIST=`cat /root/spark-ec2/slaves`
 
 
-[ -z "$HADOOP_HOME" ] &&     export HADOOP_HOME=/YOUR/HADOOP
+[ -z "$HADOOP_HOME" ] &&     export HADOOP_HOME=/root/ephemeral-hdfs
 # base dir for DataSet
 HDFS_URL="hdfs://${master}:9000"
 SPARK_HADOOP_FS_LOCAL_BLOCK_SIZE=536870912
@@ -14,10 +14,10 @@ SPARK_HADOOP_FS_LOCAL_BLOCK_SIZE=536870912
 DATA_HDFS="hdfs://${master}:9000/SparkBench"
 
 #Local dataset optional
-DATASET_DIR=/home/`whoami`/SparkBench/dataset
+#DATASET_DIR=/home/`whoami`/SparkBench/dataset
 
-SPARK_VERSION=2.0.1  #1.5.1
-[ -z "$SPARK_HOME" ] &&     export SPARK_HOME=/YOUR/SPARK
+SPARK_VERSION=1.6.3  #1.5.1
+[ -z "$SPARK_HOME" ] &&     export SPARK_HOME=/root/spark
 
 #SPARK_MASTER=local
 #SPARK_MASTER=local[K]
@@ -25,11 +25,11 @@ SPARK_VERSION=2.0.1  #1.5.1
 #SPARK_MASTER=spark://HOST:PORT
 ##SPARK_MASTER=mesos://HOST:PORT
 ##SPARK_MASTER=yarn-client
-SPARK_MASTER=yarn
-MASTER=yarn
-YARN_DEPLOY_MODE=client # or cluster, this will go to spark submit as --deploy-mode
-SPARK_RPC_ASKTIMEOUT=500
-#SPARK_MASTER=spark://${master}:7077
+#SPARK_MASTER=yarn
+#MASTER=yarn
+#YARN_DEPLOY_MODE=client # or cluster, this will go to spark submit as --deploy-mode
+#SPARK_RPC_ASKTIMEOUT=500
+SPARK_MASTER=spark://${master}:7077
 
 
 
@@ -45,7 +45,7 @@ SPARK_IO_COMPRESSION_CODEC=lzf
 # Spark options in system.property or arguments of spark-submit 
 # - SPARK_EXECUTOR_MEMORY, --conf spark.executor.memory
 # - SPARK_STORAGE_MEMORYFRACTION, --conf spark.storage.memoryfraction
-#SPARK_STORAGE_MEMORYFRACTION=0.5
+SPARK_STORAGE_MEMORYFRACTION=0.5
 SPARK_EXECUTOR_MEMORY=1g
 #export MEM_FRACTION_GLOBAL=0.005
 
