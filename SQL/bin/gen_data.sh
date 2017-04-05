@@ -24,8 +24,6 @@ START_TIME=`timestamp`
 
 CPFROM $srcf ${INPUT_HDFS}
 
-echo "Copied from ${srcf} to ${INPUT_HDFS}"
-
 res=$?;
 END_TIME=`timestamp`
 

@@ -11,9 +11,8 @@ DIR=`cd $bin/../; pwd`
 
 DU ${INPUT_HDFS} SIZE 
 
-#JAR="${DIR}/target/StreamingApp-1.0.jar"
-JAR="$SPARK_HOME/examples/jars/spark-examples_2.11-2.0.1.jar"
 
+JAR="${SPARK_HOME}/examples/target/scala-2.10/spark-examples-${SPARK_VERSION}-hadoop2.3.0.jar"
 if [[ -z "$JAR" ]]; then
   echo "Failed to find Spark examples assembly in  ${SPARK_HOME}/examples/target" 1>&2
   echo "You need to build Spark before running this program" 1>&2
@@ -25,9 +24,6 @@ fi
 # NetworkWordCount StatefulNetworkWordCount CustomReceiver QueueStream RawNetworkGrep ActorWordCount
 # clickstream.PageViewStream MQTTWordCount ZeroMQWordCount TwitterAlgebirdCMS TwitterAlgebirdHLL TwitterPopularTags
 opt=$1
-host=$2
-port=$3
-
 if [ ! -z "$opt" ]; then
   subApp=$opt
 fi
@@ -37,47 +33,43 @@ if [ $subApp = "StreamingLogisticRegression" ];then
 	#CLASS="org.apache.spark.examples.mllib.${subApp}"
 	CLASS="src.main.scala.${subApp}"
 	echo "opt $OPTION"
-	JAR="${DIR}/target/StreamingApp-1.0.jar"
+	JAR="${DIR}/target/scala-2.10/streamingapp_2.10-1.0.jar"
 elif [ $subApp = "NetworkWordCount" ];then
-	OPTION="$host $port"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	OPTION="minli1 9999"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "StatefulNetworkWordCount" ];then	
-	OPTION="$host $port"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	OPTION="minli1 9999"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "CustomReceiver" ];then	
-	OPTION="$host $port"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	OPTION="minli1 9999"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "QueueStream"  ];then	
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "RawNetworkGrep" ];then	
-       numStreams=$2
-       host=$3
-       port=$4
-       batchMillis=$5
-	OPTION="$numStreams $host $port $batchMillis"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	OPTION="10 minli1 9999 3000"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "ActorWordCount" ];then	
-	OPTION="$host $port"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	OPTION="minli1 9999"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "PageViewStream"  ];then	
-	OPTION="errorRatePerZipCode $host $port"
-	#CLASS="org.apache.spark.examples.streaming.${subApp}"
+	OPTION="errorRatePerZipCode minli1 44444"
+	#CLASS="org.apache.spark.examples.streaming.${subapp}"
 	CLASS="src.main.scala.PageViewStream"
-	JAR="${DIR}/target/StreamingApp-1.0.jar"
+	JAR="${DIR}/target/scala-2.10/streamingapp_2.10-1.0.jar"
 elif [ $subApp = "MQTTWordCount"  ];then	
-	OPTION="tcp://$host:1883 foo"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	OPTION="tcp://minli1:1883 foo"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "ZeroMQWordCount"  ];then	
 	OPTION="tcp://127.0.1.1:1234 foo"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "TwitterAlgebirdCMS" ];then	
 	SPARK_OPT="${SPARK_OPT} --conf twitter4j.oauth.consumerKey=cD3wXjfmKbmMy43KP3f2lmcgK --conf twitter4j.oauth.consumerSecret=4oiAOoK6UA1q3IW24Mp2gyjhljbw5tPvbzVKvtOYLp --conf twitter4j.oauth.accessToken=18195366-xRzwB9QiTlX1z1av4LQ3QWGvsGIhTiQcLzEXUSMGb --conf twitter4j.oauth.accessTokenSecret=oopf1YVLvqOgTMn46i72go1Ok84KS3MiZ5QtS6zJybIf2 
 	"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "TwitterAlgebirdHLL" ];then	
 	SPARK_OPT="${SPARK_OPT} --conf twitter4j.oauth.consumerKey=cD3wXjfmKbmMy43KP3f2lmcgK --conf twitter4j.oauth.consumerSecret=4oiAOoK6UA1q3IW24Mp2gyjhljbw5tPvbzVKvtOYLp --conf twitter4j.oauth.accessToken=18195366-xRzwB9QiTlX1z1av4LQ3QWGvsGIhTiQcLzEXUSMGb --conf twitter4j.oauth.accessTokenSecret=oopf1YVLvqOgTMn46i72go1Ok84KS3MiZ5QtS6zJybIf2 
 	"
-	CLASS="org.apache.spark.examples.streaming.${subApp}"
+	CLASS="org.apache.spark.examples.streaming.${subapp}"
 elif [ $subApp = "TwitterPopularTags" ];then
 #   Usage: TwitterPopularTags <consumer key> <consumer secret> 
         #<access token> <access token secret> [<filters>]
